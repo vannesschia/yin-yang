@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Instrument+Serif:ital@0;1&display=swap');
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-bg: #F4F4F4;
+  --color-fg: #0F0F0F;
+  --color-muted: #656565;
+
+  --font-sans: "Geist", system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-kaiti: "Kaiti", serif;
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--color-fg);
+  background: var(--color-bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dark {
+  --color-bg: #0E0E0E;
+  --color-fg: #F4F4F4;
+  --color-muted: #808080;
+}
+
+@font-face {
+  font-family: "Kaiti";
+  src: url("/fonts/KaiTi.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+@layer utilities {
+  .font-sans { font-family: var(--font-sans); }
+  .font-serif { font-family: var(--font-serif); }
+  .font-kaiti { font-family: var(--font-kaiti); }
+
+  /* Theme-aware shorthands (optional) */
+  .bg-theme { background: var(--color-bg); }
+  .text-theme { color: var(--color-fg); }
+  .text-muted { color: var(--color-muted); }
+  .border-theme { border-color: var(--color-border); }
+
+  /* Icon sizing helper for consistency */
+  .icon-4 { width: 1rem; height: 1rem; }
+
+  /* Button base */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;               /* ~gap-2 */
+    padding: 0.25rem 0.75rem;  /* ~py-1 px-3 */
+    border-radius: 0.25rem;   /* rounded-sm */
+    border: 1px solid var(--btn-border);
+    color: var(--btn-fg);
+    background: var(--btn-bg);
+    box-shadow: inset 0 -4px 0 var(--btn-inset-bottom);
+    transition: background-color 120ms, color 120ms, transform 120ms, box-shadow 120ms ease-out;
+    outline: none;
+  }
+  .btn:hover {
+    background: var(--btn-bg-hover);
+  }
+  .btn:active {
+    background: var(--btn-bg-active);
+    box-shadow: inset 0 3px 0 var(--btn-inset-top);
+    transform: translateY(1px);
+  }
+  .btn:focus-visible {
+    box-shadow:
+      0 0 0 2px color-mix(in oklab, black 10%, transparent),
+      inset 0 -4px 0 var(--btn-inset-bottom);
+  }
+  .dark .btn:focus-visible {
+    box-shadow:
+      0 0 0 2px color-mix(in oklab, white 20%, transparent),
+      inset 0 -4px 0 var(--btn-inset-bottom);
+  }
+
+  /* Label nudge + press behavior that follows the button state */
+  .btn-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transform: translateY(-2px);
+    transition: transform 120ms ease-out;
+  }
+  .btn:active .btn-label {
+    transform: translateY(0);
+  }
+
+  /* LIGHT skin variables */
+  .btn-light {
+    --btn-bg: #E1E1E1;
+    --btn-fg: #000000;
+    --btn-border: #B3B3B3;
+    --btn-bg-hover: #E8E8E8;
+    --btn-bg-active: #CFCFCF;
+    --btn-inset-bottom: rgba(54,54,54,0.25);
+    --btn-inset-top: rgba(255,255,255,0.45);
+  }
+
+  /* DARK skin variables */
+  .btn-dark {
+    --btn-bg: #323232;
+    --btn-fg: #FFFFFF;
+    --btn-border: #4B4B4B;
+    --btn-bg-hover: #363636;
+    --btn-bg-active: #2a2a2a;
+    --btn-inset-bottom: rgba(0,0,0,0.25);
+    --btn-inset-top: rgba(100,100,100,0.25);
+  }
+
+  /* AUTO: light by default, overridden in .dark */
+  .btn-auto {
+    /* light defaults */
+    --btn-bg: #E1E1E1;
+    --btn-fg: #000000;
+    --btn-border: #B3B3B3;
+    --btn-bg-hover: #E8E8E8;
+    --btn-bg-active: #CFCFCF;
+    --btn-inset-bottom: rgba(54,54,54,0.25);
+    --btn-inset-top: rgba(255,255,255,0.45);
+  }
+  .dark .btn-auto {
+    /* dark overrides */
+    --btn-bg: #323232;
+    --btn-fg: #FFFFFF;
+    --btn-border: #4B4B4B;
+    --btn-bg-hover: #363636;
+    --btn-bg-active: #2a2a2a;
+    --btn-inset-bottom: rgba(0,0,0,0.25);
+    --btn-inset-top: rgba(100,100,100,0.25);
+  }
+}
