@@ -6,6 +6,7 @@
   --color-bg: #F4F4F4;
   --color-fg: #0F0F0F;
   --color-muted: #656565;
+  --color-line: #D8D8D8;
 
   --font-sans: "Geist", system-ui, sans-serif;
   --font-serif: "Instrument Serif", Georgia, serif;
@@ -28,6 +29,7 @@
   --color-bg: #0E0E0E;
   --color-fg: #F4F4F4;
   --color-muted: #808080;
+  --color-line: #272727;
 }
 
 @font-face {
@@ -53,6 +55,7 @@ body {
   .text-theme { color: var(--color-fg); }
   .text-muted { color: var(--color-muted); }
   .border-theme { border-color: var(--color-border); }
+  .border-line { border-color: var(--color-line); }
 
   /* Icon sizing helper for consistency */
   .icon-4 { width: 1rem; height: 1rem; }

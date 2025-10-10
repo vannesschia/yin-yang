@@ -9,10 +9,16 @@ function cx(...parts: Array<string | false | null | undefined>) {
 
 export default function Button({
   scheme = "auto",
+  link = "",
   className,
   children,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { scheme?: Scheme }) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { scheme?: Scheme, link?: string }) {
+  if (link) {
+    props.onClick = () => {
+      window.open(link, "_blank");
+    };
+  }
   const skin =
     scheme === "light" ? "btn-light" :
     scheme === "dark"  ? "btn-dark"  :

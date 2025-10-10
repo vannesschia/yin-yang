@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import type { Variants } from "framer-motion";
 import Button from "./components/button";
+import ListItem from "./components/list-item";
 import { Linkedin, Github, File } from "lucide-react";
+import v4Black from "./images/v4-black.jpeg";
+import v4Green from "./images/v4-green.jpeg";
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -10,7 +13,7 @@ const container: Variants = {
     opacity: 1,
     transition: {
       delayChildren: 0.18,
-      staggerChildren: 0.2,
+      staggerChildren: 0.15,
     },
   },
 };
@@ -24,12 +27,31 @@ const item: Variants = {
   },
 };
 
+const bodyContainer: Variants = {
+  hidden: { opacity: 0, filter: "blur(10px)" },
+  show: (isInitial) => ({ // It's now a function receiving our custom prop
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: {
+      staggerChildren: 0.2,
+      // Use a long delay for the initial load, but a short one for theme changes
+      delayChildren: isInitial ? 1.08 : 0.4,
+    },
+  }),
+};
+
 export default function App() {
   const [dark, setDark] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsInitialLoad(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -52,7 +74,7 @@ export default function App() {
             layout
             style={{ overflow: "hidden" }}
             transition={{
-              layout: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+              layout: { duration: 0.4, ease: [0.5, 0, 0.5, 1] },
             }}
           >
             <AnimatePresence mode="popLayout" initial={false}>
@@ -60,29 +82,25 @@ export default function App() {
                 <motion.p
                   key="dark-copy"
                   className="text-muted will-change-transform"
-                  initial={{ opacity: 0, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, filter: "blur(10px)" }}
+                  initial={{ opacity: 0, filter: "blur(5px)", y: 18 }}
+                  animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                  exit={{ opacity: 0, filter: "blur(5px)", y: -18 }}
                   transition={{
-                    duration: 0.28,
-                    ease: "easeInOut",
-                    type: "tween",
+                    type: "spring", damping: 32, stiffness: 200, mass: 0.9
                   }}
                 >
                   Jack of all trades, master of none, but oftentimes better than
-                  master of one.
+                  master of one. A collection of my other pastimes.
                 </motion.p>
               ) : (
                 <motion.p
                   key="light-copy"
                   className="text-muted will-change-transform"
-                  initial={{ opacity: 0, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, filter: "blur(10px)" }}
+                  initial={{ opacity: 0, filter: "blur(5px)", y: 18 }}
+                  animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                  exit={{ opacity: 0, filter: "blur(5px)", y: -18 }}
                   transition={{
-                    duration: 0.28,
-                    ease: "easeInOut",
-                    type: "tween",
+                    type: "spring", damping: 32, stiffness: 200, mass: 0.9
                   }}
                 >
                   Currently studying CS &amp; UX Design at the UofM. Passionate
@@ -95,18 +113,18 @@ export default function App() {
           <motion.div
             layout="position"
             transition={{
-              layout: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+              layout: { duration: 0.4, ease: [0.5, 0, 0.5, 1] },
             }}
             className="flex flex-row gap-1.5 mt-2 items-center"
           >
             <motion.div layout="position" variants={item}>
-              <Button>
+              <Button link="https://www.linkedin.com/in/vannesschia">
                 <Linkedin className="icon-4" />
                 LinkedIn
               </Button>
             </motion.div>
             <motion.div layout="position" variants={item}>
-              <Button>
+              <Button link="https://github.com/vannesschia">
                 <Github className="icon-4" />
                 GitHub
               </Button>
@@ -159,6 +177,123 @@ export default function App() {
                 </AnimatePresence>
               </Button>
             </motion.div>
+          </motion.div>
+
+          <motion.div
+            layout
+            style={{ overflow: "hidden" }}
+            transition={{ layout: { duration: 0.4, ease: [0.5, 0, 0.5, 1] } }}
+          >
+            <AnimatePresence mode="popLayout">
+              {!dark ? (
+                <motion.div
+                  key="body-light"
+                  className="mt-12 flex flex-col gap-20"
+                  variants={bodyContainer}
+                  initial="hidden"
+                  animate="show"
+                  custom={isInitialLoad}
+                >
+                  <motion.div className="flex flex-col gap-2.5" variants={item}>
+                    <p className="text-muted text-xs">EXPERIENCE</p>
+                    <ListItem
+                      mainText="Software Engineer Intern"
+                      subText="GEICO"
+                      rightText="Summer 2025"
+                      isLink={false}
+                    />
+                    <ListItem
+                      mainText="Software Engineer Intern"
+                      subText="JoobyRumi"
+                      rightText="Summer 2024"
+                      isLink={false}
+                    />
+                    <ListItem
+                      mainText="Teaching Assistant"
+                      subText="UofM COE (Joy of Coding)"
+                      rightText="Summer 2024"
+                      isLink={false}
+                    />
+                    <ListItem
+                      mainText="Section Commander"
+                      subText="Singapore Armed Forces"
+                      rightText="2020-2022"
+                      isLink={false}
+                    />
+                  </motion.div>
+
+                  <motion.div className="flex flex-col gap-2.5" variants={item}>
+                    <p className="text-muted text-xs">PERSONAL PROJECTS</p>
+                    <ListItem
+                      mainText="ZProfile"
+                      rightText="Management platform for university organization"
+                    />
+                    <ListItem
+                      mainText="Receiptify Clone"
+                      rightText="View your top Spotify tracks as a receipt"
+                    />
+                  </motion.div>
+
+                  <motion.div className="flex flex-col gap-2.5" variants={item}>
+                    <p className="text-muted text-xs">ACADEMIC PROJECTS</p>
+                    <ListItem
+                      mainText="MapReduce"
+                      rightText="A simplified MapReduce framework in Python"
+                    />
+                    <ListItem mainText="Pager" rightText="Test" />
+                  </motion.div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="body-dark"
+                  className="mt-12 mb-20 flex flex-col gap-20"
+                  variants={bodyContainer}
+                  initial="hidden"
+                  animate="show"
+                  custom={isInitialLoad}
+                >
+                  <motion.div className="flex flex-col gap-2.5" variants={item}>
+                    <p className="text-muted text-xs">CLIMBING</p>
+                    <div className="flex flex-row items-center gap-2">
+                      <div>
+                        <img src={v4Black} className="w-48 h-56 object-fit rounded-md"></img>
+                        <p className="text-muted text-sm mt-1 font-serif tracking-tight text-right">V4 @ Planet Rock (2025)</p>
+                      </div>
+                      <div>
+                        <img src={v4Green} className="w-48 h-56 object-fit rounded-md"></img>
+                        <p className="text-muted text-sm mt-1 font-serif tracking-tight text-right">V4 @ Planet Rock (2025)</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                  
+                  <motion.div className="flex flex-col gap-2.5" variants={item}>
+                    <p className="text-muted text-xs">COOKING</p>
+                    <ListItem
+                      mainText="Quick N' Easy Fried Rice"
+                      rightText="10 min"
+                    />
+                    <ListItem
+                      mainText="Kimchi Jjigae"
+                      rightText="30 min"
+                    />
+                    <ListItem
+                      mainText="Japanese Curry"
+                      rightText="30 min"
+                    />
+                  </motion.div>
+
+                  <motion.div className="flex flex-col gap-2.5" variants={item}>
+                    <p className="text-muted text-xs">DANCE</p>
+                    <ListItem
+                      mainText="Dancemix"
+                      rightText="2025"
+                    />
+                    <ListItem mainText="Warmup" rightText="2024" />
+                    <ListItem mainText="Sleepless in Seoul" rightText="2023" />
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         </motion.div>
       </div>
