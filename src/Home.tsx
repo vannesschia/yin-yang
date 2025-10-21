@@ -128,7 +128,7 @@ export default function Home() {
               </Button>
             </motion.div>
             <motion.div layout="position">
-              <Button>
+              <Button link="https://drive.google.com/file/d/1lGUmZ8bNKBB8IiQc6eRiLjcOm7ZcmKw_/view?usp=sharing">
                 <File className="icon-4" />
                 CV
               </Button>
